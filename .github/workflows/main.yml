@@ -33,6 +33,10 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+        
+      - name: Create empty allowlist (disable allowlist download) 
+        run: |
+          : > allowlist.txt
 
       - name: Download blocklists
         run: npm run download:blocklist

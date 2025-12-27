@@ -14,6 +14,7 @@ concurrency:
 
 env:
   NODE_ENV: production
+  DEBUG: 1
 
 jobs:
   cgps:

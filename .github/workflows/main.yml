@@ -33,6 +33,19 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+      # === 新增：先清理旧规则和旧列表（防止空 List 堆积）===
+      - name: Delete existing CGPS Gateway rule and lists
+        shell: bash
+        run: |
+          set -euo pipefail
+          # 先删规则（否则规则引用列表会导致后续行为不一致）
+          node cf_gateway_rule_delete.js || true
+          # 再删列表（清理 CGPS 创建的所有 lists）
+          node cf_list_delete.js || true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
         
       - name: Create empty allowlist (disable allowlist download) 
         run: |
